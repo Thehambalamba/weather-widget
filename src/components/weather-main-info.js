@@ -11,7 +11,7 @@ class WeatherMainInfo extends React.Component {
             <p>{this.props.weather}</p>
           </div>
           <div className="icon">
-          <img src = {this.props.icon} alt="weatherIcon"/>
+          <img src={this.props.icon} alt="weatherIcon"/>
           </div >
         </div>
         <div className="bottom">

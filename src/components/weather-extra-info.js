@@ -4,9 +4,7 @@ class WeatherExtraInfo extends React.Component {
   render() {
     return (
       <React.Fragment>
-       <section className="container">
-
-       </section>
+        <h1>More info component</h1>
       </React.Fragment>
     );
   }

@@ -8,6 +8,7 @@ class Layout extends React.Component {
     super(props);
     // Don't call this.setState() here!
     this.state = { apiKey: 'b08de257857046a4b8213455183108', currentCity: 'Belgrade' };
+    this.getData(this.state.currentCity, this.state.apiKey);
   }
   /**
    * Fetch the weather data or log errors
@@ -37,19 +38,31 @@ class Layout extends React.Component {
         const newState = {
           main: {
             cityName: weather.location.name,
-            currentDate: weather.location.localtime
+            currentDate: this.getDayName(weather.location.localtime)
           },
           mainInfo: {
             temperature: weather.current.temp_c,
             weatherDescription: weather.current.condition.text,
             lastUpdated: weather.current.last_updated
           },
-          extraInfo: {
-            humidity: weather.current.humidity,
-            visibility: weather.current.vis_km,
-            uv: weather.forecast.forecastday[0].day.uv,
-            feelsLike: weather.current.feelslike_c
-          },
+          extraInfo: [
+            {
+              value: weather.current.humidity,
+              name: 'Humidity',
+            },
+            {
+              value: weather.current.feelslike_c,
+              name: 'Feels like',
+            },
+            {
+              value: weather.forecast.forecastday[0].day.uv,
+              name: 'UV Index',
+            },
+            {
+              value: weather.current.vis_km,
+              name: 'Visibility',
+            }
+          ],
           daily: weather.forecast.forecastday.map(element => {
             return {
               date: element.date,
@@ -65,20 +78,31 @@ class Layout extends React.Component {
       });
   }
 
+  getDayName(dateStr) {
+    let date = new Date(dateStr);
+    console.log(date);
+    const dayName = date.toLocaleDateString('en-us', { weekday: 'long' });
+    return `${date.getDate()} ${dayName.toUpperCase()}`;
+  }
+
   componentDidMount() {
-    this.getData(this.state.currentCity, this.state.apiKey);
+    
   }
 
   render() {
-    return (
-      <div className="container">
-        <div className="column"> 
-          <WeatherMainInfo />
-          <WeatherExtraInfo />
+    if (this.state.main) {
+      return (
+        <div className="container fade-in">
+          <div className="column">
+            <WeatherMainInfo />
+            <WeatherExtraInfo extraInfo={this.state.extraInfo} />
+          </div>
+          <WeatherMain cityName={this.state.main.cityName} currentDate={this.state.main.currentDate} dailyArr={this.state.daily} />
         </div>
-        <WeatherMain name={'Beograd'.toUpperCase()}/>
-      </div>
-    );
+      );
+    } else {
+      return (<div className="loader"></div>)
+    }
   }
 }
 

@@ -1,7 +1,8 @@
 import React from "react";
 
 class WeatherMainInfo extends React.Component {
-  render() {
+  render(props) {
+    console.log(this.props);
     return (
       <section className="main-info-container">
         <div className="info-and-icon"> 

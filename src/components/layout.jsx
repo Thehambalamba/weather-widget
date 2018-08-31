@@ -6,63 +6,78 @@ import WeatherMain from "./weather-main";
 class Layout extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      api: {
-        apiKey: 'b88bf8adc3ad7bcfcb02cce53a98775d',
-        belgradeId: '792680',
-        noviSadId: '3194360',
-        currentCity: 1
-      },
-      main: {},
-      info: {},
-      moreInfo: {},
-      dailyInfo: {}
-    };
-
-    this.getWeather()
-      .then(response => {
-        console.log(response);
-        // const { name } = response.city,
-        // const today = response.list[0], 
-        const date = new Date(),
-              locale = "en-us",
-              month = date.toLocaleString(locale, { month: "long" }),
-              dateString = `${date.getDay()} ${month}`;
-
-        this.setState((prevState) => {
-          return { 
-            ...prevState, 
-            main: { currentName: 'name', date: dateString, namesArr: ['Belgrade', 'Novi Sad'] },
-            // info: 
-          };
-        });
-        // console.log(today);
-      });
+    // Don't call this.setState() here!
+    this.state = { apiKey: 'b08de257857046a4b8213455183108', currentCity: 'Belgrade' };
   }
-  async getWeather() {
-    // const currentWeather = fetch(`http://api.openweathermap.org/data/2.5/weather?id=${this.state.api.belgradeId}&units=metric&APPID=${this.state.api.apiKey}`)
-    //   .then(response => response.json())
-    //   .then(fetch(`http://api.openweathermap.org/data/2.5/uvi?appid=${this.state.api.apiKey}&lat=${response.cord.lat}&lon=${response.cord.lon}`))
-    //   .then(response => response.json());
-    
-    // return responseData;
+  /**
+   * Fetch the weather data or log errors
+   * @param {string} cityName 
+   * @param {string} apiKey 
+   */
+  async getWeather(cityName, apiKey) {
+    try {
+      const response = await fetch(`http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=8`);
+  
+      const responseData = await response.json();
+  
+      return responseData;
+    } catch (err) {
+      console.error('Error', err.message);
+    }
+  }
+
+  /**
+   * Call the getWeatherm method with the city name and map the data to update state
+   * @param {string} cityId 
+   * @param {string} apiKey 
+   */
+  getData(cityName, apiKey) {
+    this.getWeather(cityName, apiKey)
+      .then(weather => {
+        const newState = {
+          main: {
+            cityName: weather.location.name,
+            currentDate: weather.location.localtime
+          },
+          mainInfo: {
+            temperature: weather.current.temp_c,
+            weatherDescription: weather.current.condition.text,
+            lastUpdated: weather.current.last_updated
+          },
+          extraInfo: {
+            humidity: weather.current.humidity,
+            visibility: weather.current.vis_km,
+            uv: weather.forecast.forecastday[0].day.uv,
+            feelsLike: weather.current.feelslike_c
+          },
+          daily: weather.forecast.forecastday.map(element => {
+            return {
+              date: element.date,
+              temperature: element.day.avgtemp_c,
+              weatherDescription: element.day.condition.text,
+            };
+          })
+        };
+        this.setState((prevState) => {
+          return { ...prevState, ...newState };
+        });
+        console.log(this.state);
+      });
   }
 
   componentDidMount() {
-    
+    this.getData(this.state.currentCity, this.state.apiKey);
   }
 
   render() {
     return (
-      <React.Fragment>
-        <div className="container">
-          <div className="column"> 
-            <WeatherMainInfo />
-            <WeatherExtraInfo />
-          </div>
-          <WeatherMain name={this.state.main.currentName} date={this.state.main.date} cityNames={this.state.main.namesArr}/>
+      <div className="container">
+        <div className="column"> 
+          <WeatherMainInfo />
+          <WeatherExtraInfo />
         </div>
-      </React.Fragment>
+        <WeatherMain name={'Beograd'.toUpperCase()}/>
+      </div>
     );
   }
 }

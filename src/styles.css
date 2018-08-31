@@ -35,7 +35,6 @@ body {
   min-width: 500px;
   color: #fff;
   background: lightgreen;
-  /* height: 500px; */
 }
 
 .main-info-container {
@@ -112,4 +111,29 @@ div.info-single-wrap p {
 
 div.info-single-wrap h1 {
   margin: 0;
+}
+
+/* MAIN COMPONENT */
+
+div.title-wrap {
+  padding: 1em 2em;
+}
+
+div.title-wrap h1 {
+  font-size: 3em;
+  margin: 0;
+}
+div.title-wrap>h1 i {
+  vertical-align: top;
+  margin-top: 20px;
+  font-size: 25px;
+  margin-left: 10px;
+  line-height: -7px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+div.title-wrap p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5em;
+  margin-top: 10px;
 }

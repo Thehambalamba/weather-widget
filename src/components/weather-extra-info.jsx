@@ -3,9 +3,9 @@ import Info from "./info";
 
 class WeatherExtraInfo extends React.Component {
   renderInfo(infoArr) {
-    return infoArr.map((element) => {
+    return infoArr.map((element, index) => {
       return (
-        <Info value={element.value} name={element.name}/>
+        <Info value={element.value} name={element.name} key={index}/>
       );
     });
   }

@@ -43,7 +43,8 @@ class Layout extends React.Component {
           mainInfo: {
             temperature: weather.current.temp_c,
             weatherDescription: weather.current.condition.text,
-            lastUpdated: weather.current.last_updated
+            lastUpdated: weather.current.last_updated,
+            isDay: weather.current.is_day
           },
           extraInfo: [
             {
@@ -94,10 +95,17 @@ class Layout extends React.Component {
       return (
         <div className="container fade-in">
           <div className="column">
-            <WeatherMainInfo />
+            <WeatherMainInfo 
+              temperature={this.state.mainInfo.temperature}
+              weatherDescription={this.state.mainInfo.weatherDescription} 
+              lastUpdated={this.state.mainInfo.lastUpdated}
+              isDay={this.state.mainInfo.isDay} />
             <WeatherExtraInfo extraInfo={this.state.extraInfo} />
           </div>
-          <WeatherMain cityName={this.state.main.cityName} currentDate={this.state.main.currentDate} dailyArr={this.state.daily} />
+          <WeatherMain 
+            cityName={this.state.main.cityName} 
+            currentDate={this.state.main.currentDate} 
+            dailyArr={this.state.daily} />
         </div>
       );
     } else {

@@ -126,6 +126,7 @@ div.info>sup {
 }
 
 div.info>p {
+  max-width: 150px;
   font-size: 1.5em;
   margin: 0;
 }
@@ -195,4 +196,3 @@ div.title-wrap p {
   font-size: 1.5em;
   margin-top: 10px;
 }
-

@@ -202,7 +202,6 @@ export function getDayName(dateStr) {
 
 export function getSmallDayName(date) {
   const dateIndex = new Date(date).getDay();
-  console.log(dateIndex);
   const daysArr = ['SUN', 'MON', 'TUES', 'WED', 'THURS', "FRI", 'SAT'];
   return daysArr[dateIndex];
 }

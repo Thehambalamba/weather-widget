@@ -16,7 +16,11 @@ export function getIconName(weather, isDay) {
       }
       break;
     case 'Partly cloudy': 
-      iconName = 'Cloudy';
+      if (isDay === 1) {
+        iconName = 'cloudy';
+      } else {
+        iconName = 'cloud';
+      }
       break;
     case 'Cloudy': 
       iconName = 'cloud';
@@ -188,4 +192,17 @@ export function getIconName(weather, isDay) {
   return `${iconName}.svg`;
 }
 
+export function getDayName(dateStr) {
+  let date = new Date(dateStr);
+  const dayName = date.toLocaleDateString('en-us', {
+    weekday: 'long'
+  });
+  return `${date.getDate()} ${dayName.toUpperCase()}`;
+}
 
+export function getSmallDayName(date) {
+  const dateIndex = new Date(date).getDay();
+  console.log(dateIndex);
+  const daysArr = ['SUN', 'MON', 'TUES', 'WED', 'THURS', "FRI", 'SAT'];
+  return daysArr[dateIndex];
+}

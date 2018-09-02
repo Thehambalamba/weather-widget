@@ -1,11 +1,11 @@
 import React from "react";
 import TimeAgo from 'timeago-react';
-import { getIconName } from '../helper/helpers';
+import { getIconName } from '../helpers/helpers';
+// import Chart from "./chart";
 
-class WeatherMainInfo extends React.Component {
+class WeatherMainInfo extends React.Component { 
   render() {
     const icon = getIconName(this.props.weatherDescription, this.props.isDay);
-    console.log(icon);
     return (
       <section className="main-info-container">
         <div className="info-and-icon"> 
@@ -18,11 +18,12 @@ class WeatherMainInfo extends React.Component {
           </div> 
         </div> 
         <div className="bottom">
-          <img src={require('../assets/icons/refresh.svg')} alt="refresh icon"/>
-          <div className="txt">
-            Updated <strong><TimeAgo datetime={this.props.lastUpdated} locale='en' />.</strong>
+          <img  onClick={this.getNewData} src={require('../assets/icons/refresh.svg')} alt="refresh icon"/>
+          <div className="txt" ref="TimeAgo">
+            Updated <strong><TimeAgo datetime={this.props.lastUpdated} locale='en'  />.</strong>
           </div>
         </div> 
+        {/* <Chart /> */}
       </section>
     );
   }

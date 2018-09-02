@@ -205,3 +205,30 @@ export function getSmallDayName(date) {
   const daysArr = ['SUN', 'MON', 'TUES', 'WED', 'THURS', "FRI", 'SAT'];
   return daysArr[dateIndex];
 }
+
+export function mapData(data) {
+  return {
+    main: {
+      cityName: data.location.name,
+      currentDate: getDayName(data.location.localtime)
+    },
+    mainInfo: {
+      temperature: data.current.temp_c,
+      weatherDescription: data.current.condition.text,
+      lastUpdated: data.current.last_updated,
+      isDay: data.current.is_day
+    },
+    extraInfo:
+      [{ value: data.current.humidity, name: 'Humidity' },
+      { value: data.current.feelslike_c, name: 'Feels like' },
+      { value: data.forecast.forecastday[0].day.uv, name: 'UV Index' },
+      { value: data.current.vis_km, name: 'Visibility' }],
+    daily: data.forecast.forecastday.map(element => {
+      return {
+        date: element.date,
+        temperature: element.day.avgtemp_c,
+        weatherDescription: element.day.condition.text,
+      };
+    }),
+  };
+}

@@ -4,7 +4,7 @@ const Info = (props) => (
   <div className="info-single-wrap">
     <h1>
       {props.name === 'UV Index' ? '0/' : ''}
-      {props.value}
+      {parseInt(props.value)}
       {props.name === 'Humidity' ? '%' : ''|| props.name === 'Visibility' ? 'km' : '' }
       <sup className="small-sup">{props.name === 'Feels like' ? '.' : '' }</sup>
     </h1>

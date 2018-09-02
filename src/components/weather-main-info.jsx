@@ -1,9 +1,26 @@
 import React from "react";
 import TimeAgo from 'timeago-react';
-import { getIconName } from '../helpers/helpers';
+import { getIconName, mapData } from "../helpers/helpers";
 // import Chart from "./chart";
 
 class WeatherMainInfo extends React.Component { 
+
+  getNewData(dispatch, e) {
+    const icon = e.target;
+
+    if (icon.classList.contains('spin')) {
+      icon.classList.remove('spin');
+    }
+    icon.classList.add('spin');
+
+    fetch(`http://api.apixu.com/v1/forecast.json?key=${process.env.REACT_APP_KEY}&q=${this.props.cityName}&days=8`)
+      .then(response => response.json())
+      .then(weather => {
+        const newState = mapData(weather);
+        dispatch({ type: "REFRESH_DATA", payload: newState });
+      });
+  }
+
   render() {
     const icon = getIconName(this.props.weatherDescription, this.props.isDay);
     return (
@@ -14,11 +31,11 @@ class WeatherMainInfo extends React.Component {
             <p>{this.props.weatherDescription}</p> 
           </div> 
           <div className="icon"> 
-            <img src={require(`../assets/icons/${icon}`)} alt="current weather icon"/>
+            <img className="refresh" src={require(`../assets/icons/${icon}`)} alt="current weather icon"/>
           </div> 
         </div> 
         <div className="bottom">
-          <img  onClick={this.getNewData} src={require('../assets/icons/refresh.svg')} alt="refresh icon"/>
+          <img className="refresh" onClick={this.getNewData.bind(this, this.props.dispatch)} src={require('../assets/icons/refresh.svg')} alt="refresh icon"/>
           <div className="txt" ref="TimeAgo">
             Updated <strong><TimeAgo datetime={this.props.lastUpdated} locale='en'  />.</strong>
           </div>

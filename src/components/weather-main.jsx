@@ -1,21 +1,47 @@
 import React from "react";
 import DailyInfo from "./daily-info";
-import { getIconName } from '../helpers/helpers';
+import { getIconName, mapData } from '../helpers/helpers';
 
 class WeatherMain extends React.Component {
+  state = {
+    currentCity: 'Belgrade'
+  }
+  onCityChange = (dispatch, e) => {
+    const city = e.target.innerHTML;
+    this.setState({ currentCity: city});
+    fetch(`http://api.apixu.com/v1/forecast.json?key=${process.env.REACT_APP_KEY}&q=${city}&days=8`)
+      .then(response => response.json())
+      .then(weather => {
+        const newState = mapData(weather);
+
+        dispatch({ type: "CHANGE_CITY", payload: newState });
+      });
+    
+  }
+
   renderDaily(dailyArr) {
     return dailyArr.map((element, index) => {
+      console.log(index);
       const icon = getIconName(element.weatherDescription, 1);
       return (
-        <DailyInfo date={element.date} temperature={element.temperature} icon={icon} key={index} />
+        <DailyInfo date={element.date} temperature={element.temperature} icon={icon} key={index} index={index} img={this.state.currentCity} />
       );
     });
   }
+  
   render() {
     return (
-      <section className="main-container" style={{ backgroundImage: `url(${require('../assets/images/ns.jpg')})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
+      <section className="main-container" style={{ backgroundImage: `url(${require(`../assets/images/${this.state.currentCity === 'Belgrade' ? 'bg-2' : 'ns'}.jpg`)})`, backgroundPosition: '2% top', backgroundRepeat: 'no-repeat', transition: 'background-image 0.6s ease-in' }}>
         <div className="title-wrap">
-          <h1>{this.props.cityName.toUpperCase()}<i className="fas fa-chevron-down"></i></h1>
+          <div className="dropdown">
+            <h1 className="title-city">
+              {this.props.cityName.toUpperCase()}
+              <i className="fas fa-chevron-down"></i>
+            </h1>
+            <div className="dropdown-content">
+              <div onClick={this.onCityChange.bind(this, this.props.dispatch)}>{this.state.currentCity === 'Belgrade' ? 'Novi Sad' : 'Belgrade'}</div>
+            </div>
+          </div>
           <p>{this.props.currentDate}</p>
         </div>
         <div className="daily-wrap">

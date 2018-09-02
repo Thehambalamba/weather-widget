@@ -13,9 +13,8 @@ class Layout extends React.Component {
             {value => {
               if (value.main) {
                 const { temperature, weatherDescription, lastUpdated, isDay } = value.mainInfo,
-                      { extraInfo } = value,
-                      { cityName, currentDate } = value.main,
-                      { daily } = value;
+                      { extraInfo, daily, dispatch } = value,
+                      { cityName, currentDate } = value.main;
                 return (  
                 <React.Fragment>
                   <div className="container fade-in">
@@ -24,13 +23,16 @@ class Layout extends React.Component {
                         temperature={temperature}
                         weatherDescription={weatherDescription}
                         lastUpdated={lastUpdated}
-                        isDay={isDay} />
+                        isDay={isDay} 
+                        cityName={cityName}
+                        dispatch={dispatch} />
                       <WeatherExtraInfo extraInfo={extraInfo} />
                     </div>
                     <WeatherMain
                       cityName={cityName}
                       currentDate={currentDate}
-                      dailyArr={daily} />
+                      dailyArr={daily} 
+                      dispatch={dispatch}/>
                   </div>
                 </React.Fragment>
                 )

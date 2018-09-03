@@ -86,6 +86,7 @@ body {
 /* THE COMPONENT CONTAINERS */
 
 .main-container {
+  
   background-color: rgb(229, 195, 57);
   display: flex;
   flex-direction: column;
@@ -96,6 +97,7 @@ body {
 }
 
 .main-info-container {
+  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -152,6 +154,7 @@ div.bottom img {
 }
 
 div.bottom {
+  z-index: 2;
   margin-top: auto;
   padding: 1em 2em;
 }
@@ -165,34 +168,40 @@ div.bottom {
   animation: spin 300ms;
 }
 
-/* .selected {
-  animation: spin 300ms;
-  transform: rotate(360deg);
-} */
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
 
   100% {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
   }
 }
 
-svg {
+.main-info-container svg {
+  z-index: 1;
+  bottom: 0;
   position: absolute;
 }
 
-.path {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: dash 5s linear forwards;
+.line {
+  fill: transparent;
+}
+
+.animate-line {
+  animation: dash 0.6s linear forwards;
+  stroke-dasharray: 30 600;
+  stroke-dashoffset: 200;
+  stroke: rgb(90, 65, 71);
 }
 
 @keyframes dash {
-  to {
-    stroke-dashoffset: 0;
+  0% {
+    stroke-dashoffset: 690;
+  }
+
+  100% {
+    stroke-dashoffset: 40;
   }
 }
 
@@ -237,18 +246,18 @@ sup.small-sup {
 /* MAIN COMPONENT AND DAILY INFO */
 
 div.title-wrap {
-  background: rgba(228, 192, 49, 0.4);
+  /* background: rgba(228, 192, 49, 0.4); */
   padding: 1em 2em;
 }
 
 div.title-wrap h1 {
-  font-size: 1.5em;
+  font-size: 2em;
   margin: 0;
 }
 
 div.title-wrap i {
   vertical-align: top;
-  margin-top: 5px;
+  margin-top: 12px;
   font-size: 20px;
   margin-left: 10px;
   line-height: -7px;
@@ -256,10 +265,10 @@ div.title-wrap i {
 }
 
 div.title-wrap p {
-  float: right;
+  /* float: right; */
   margin: 0 !important;
   color: #fff;
-  font-size: 1.5em;
+  font-size: 1.3em;
   margin-top: 10px;
 }
 
@@ -283,7 +292,7 @@ div.title-wrap p {
 .transparent-wrap {
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 100;
-  background: rgba(228, 192, 49, 0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .daily-info-wrap img {
@@ -337,7 +346,7 @@ div.title-wrap p {
   cursor: pointer;
   visibility: hidden;
   position: absolute;
-  background: rgb(212, 206, 121);
+  background: #e3bd27;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 12px 16px;

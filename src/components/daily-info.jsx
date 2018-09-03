@@ -4,13 +4,13 @@ import img from '../assets/images/ns.jpg';
 
 
 const DailyInfo = props => {
-  const blurStyle = { backgroundImage: `
-    linear-gradient(
-      rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.4)
-    ),
-    url(${require(`../assets/images/${props.img === "Belgrade" ? "bg-2" : "ns"}.jpg`)})`,
-    backgroundRepeat: "no-repeat", transition: "background-image 0.6s ease-in", backgroundPosition: `${props.index === 0 ? "1% 71%" : props.index === 1 ? props.index * 9 + "% 71%" : props.index * 9 - props.index + 1 + "% 71%"}` };
+  const blurStyle = { 
+    backgroundImage: `
+      url(${require(`../assets/images/${props.img === "Belgrade" ? "bg-2" : "ns"}.jpg`)})`,
+    backgroundRepeat: "no-repeat", transition: "background-image 0.6s ease-in", 
+    backgroundPosition: `${props.index === 0 ? "1% 71%" : props.index === 1 ? props.index * 9 + "% 71%" : props.index * 9 - props.index + 1 + "% 71%"}`,
+    transition: 'background-image 0.6s ease-in',
+  };
   
   return (
     <div className="daily-info-wrap">
